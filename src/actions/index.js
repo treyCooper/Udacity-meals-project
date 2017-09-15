@@ -6,7 +6,6 @@ export function addRecipe ({day, recipe, meal}){
     recipe,
     day,
     meal,
-
   }
 }
 
