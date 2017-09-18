@@ -4,7 +4,6 @@ import { addRecipe, removeFromCalendar } from '../actions'
 import { capitalize } from '../utils/helper'
 import CalendarIcon from 'react-icons/lib/fa/calendar-plus-o'
 
-
 class App extends Component {
   render() {
     const { calendar, remove } = this.props
@@ -12,10 +11,10 @@ class App extends Component {
 
 
     return (
-        <div className='container'>
+      <div className='container'>
 
         <ul className='meal-types'>
-          {mealOrder.map((mealType) =>(
+          {mealOrder.map((mealType) => (
             <li key={mealType} className='subheader'>
               {capitalize(mealType)}
             </li>
@@ -35,7 +34,7 @@ class App extends Component {
                       ? <div className='food-item'>
                           <img src={meals[meal].image} alt={meals[meal].label}/>
                           <button onClick={() => remove({meal, day})}>Clear</button>
-                      </div>
+                        </div>
                       : <button className='icon-btn'>
                           <CalendarIcon size={30}/>
                         </button>}
@@ -45,33 +44,37 @@ class App extends Component {
             ))}
           </div>
         </div>
+
       </div>
     )
   }
 }
 
-function mapStateToProps ({food, calendar}) {
-  const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday',
-'friday'];
+function mapStateToProps ({ food, calendar }) {
+  const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
-return{
+  return {
     calendar: dayOrder.map((day) => ({
       day,
-      meal: Object.keys(calendar[day]).reduce((meals, meal) => {
+      meals: Object.keys(calendar[day]).reduce((meals, meal) => {
         meals[meal] = calendar[day][meal]
           ? food[calendar[day][meal]]
           : null
 
         return meals
       }, {})
-    }))
+    })),
   }
 }
 
-function mapDispatchToProps (dispatch){
+function mapDispatchToProps (dispatch) {
   return {
     selectRecipe: (data) => dispatch(addRecipe(data)),
     remove: (data) => dispatch(removeFromCalendar(data))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
